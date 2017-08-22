@@ -86,7 +86,6 @@
 		abs = Math.abs,
 		min = Math.min,
 
-		savedInputChecked = [],
 		touchDragOverListeners = [],
 
 		_autoScroll = _throttle(function (/**Event*/evt, /**Object*/options, /**HTMLElement*/rootEl) {
@@ -313,8 +312,6 @@
 				originalTarget = evt.target.shadowRoot && evt.path[0] || target,
 				filter = options.filter,
 				startIndex;
-
-			_saveInputCheckedState(el);
 
 
 			// Don't trigger start event when an element is been dragged, otherwise the evt.oldindex always wrong when set option.group.
@@ -987,11 +984,6 @@
 			putSortable =
 			activeGroup =
 			Sortable.active = null;
-
-			savedInputChecked.forEach(function (el) {
-				el.checked = true;
-			});
-			savedInputChecked.length = 0;
 		},
 
 		handleEvent: function (/**Event*/evt) {
@@ -1427,16 +1419,6 @@
 				? Polymer.dom(el).cloneNode(true)
 				: el.cloneNode(true)
 			);
-	}
-
-	function _saveInputCheckedState(root) {
-		var inputs = root.getElementsByTagName('input');
-		var idx = inputs.length;
-
-		while (idx--) {
-			var el = inputs[idx];
-			el.checked && savedInputChecked.push(el);
-		}
 	}
 
 	// Fixed #973: 
